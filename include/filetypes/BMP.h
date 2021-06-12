@@ -2,7 +2,7 @@
 #include <cstdint>
 #include <vector>
 #include "../Pixel.h"
-#include "FileType.h"
+#include "ImageType.h"
 
 #pragma pack(push, 1)
 struct BMPFileHeader {
@@ -42,7 +42,7 @@ struct BMPColorHeader {
 #pragma pack(pop)
 
 
-class BMP : public FileType {
+class BMP : public ImageType {
 public:
   BMPFileHeader fileHeader;
   BMPInfoHeader infoHeader;
@@ -50,7 +50,7 @@ public:
   std::vector<uint8_t> rawData;
 
   BMP(const char *fname);
-  //  BMP(int32_t width, int32_t height, bool hasAlpha = true);
+  BMP();
 
   void read(const char *fname) override;
   void write(const char *fname) override;
@@ -68,3 +68,7 @@ private:
   // Check if the pixel dataBytes is stored as BGRA and if the color space type is sRGB
   void checkColorHeader(BMPColorHeader &bmpColorHeader);
 };
+
+extern "C" {
+  ImageType *create_image_type();
+}

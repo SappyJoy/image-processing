@@ -6,13 +6,13 @@
 #include <iostream>
 #include "../../include/filetypes/BMP.h"
 
-BMP::BMP(const char *fname) {
-  read(fname);
+BMP::BMP() {
+  extensions = { ".bmp" };
 }
 
-//BMP::BMP(int32_t width, int32_t height, bool hasAlpha) {
-//
-//}
+BMP::BMP(const char *fname) : BMP() {
+  read(fname);
+}
 
 void BMP::checkColorHeader(BMPColorHeader &bmpColorHeader) {
   BMPColorHeader expectedColorHeader;
@@ -155,5 +155,11 @@ void BMP::updateRawData() {
       rawData[(y*infoHeader.width + x) * infoHeader.bitCount / 8 + 1] = data[y][x].G;
       rawData[(y*infoHeader.width + x) * infoHeader.bitCount / 8 + 2] = data[y][x].R;
     }
+  }
+}
+
+extern "C" {
+  ImageType *create_image_type() {
+    return new BMP;
   }
 }

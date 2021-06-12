@@ -14,3 +14,9 @@ void GrayScaleEffect::apply(int width, int height, std::vector<std::vector<Pixel
     }
   }
 }
+
+extern "C" {
+  Effect *create_effect() {
+    return new GrayScaleEffect;
+  }
+}

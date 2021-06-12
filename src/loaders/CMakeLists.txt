@@ -1,0 +1,1 @@
+target_sources(effect PUBLIC PluginLoader.cpp)
