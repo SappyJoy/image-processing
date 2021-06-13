@@ -1,6 +1,10 @@
 #pragma once
 
 #include <cstdint>
+/**
+ * Representation of a pixel having 3 colors with values from -256 to 255
+ * (so the pixels can be subtracted)
+ */
 struct Pixel {
   int16_t R;
   int16_t G;
@@ -59,8 +63,7 @@ struct Pixel {
       return G;
     if (index == 2)
       return B;
-//    throw std::runtime_error("You can't use index " + std::to_string(index) + ".");
-    return 0;
+    throw std::runtime_error("You can't use index " + std::to_string(index) + ".");
   }
 
   int16_t &operator[](int index) {
@@ -70,8 +73,7 @@ struct Pixel {
       return G;
     if (index == 2)
       return B;
-//    throw std::runtime_error("You can't use index " + std::to_string(index) + ".");
-    return R;
+    throw std::runtime_error("You can't use index " + std::to_string(index) + ".");
   }
 
 private:

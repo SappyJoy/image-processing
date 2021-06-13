@@ -12,6 +12,10 @@
 namespace fs = std::filesystem;
 namespace po = boost::program_options;
 
+/**
+ * Prints all available effects that found in src/effects/ folder
+ * @param effects map<name of effect, effect pointer>
+ */
 void printEffects(std::unordered_map<std::string, std::unique_ptr<Effect>> &effects) {
   if (effects.empty()) {
     std::cout << "There is no available effects.\n";
@@ -23,6 +27,10 @@ void printEffects(std::unordered_map<std::string, std::unique_ptr<Effect>> &effe
   }
 }
 
+/**
+ * Prints all available extensions that found in src/filetypes/ folder
+ * @param extensions set<extension string>
+ */
 void printExtensions(std::unordered_set<std::string> &extensions) {
   if (extensions.empty()) {
     std::cout << "There is no supported image types.\n";
@@ -39,6 +47,10 @@ void printExtensions(std::unordered_set<std::string> &extensions) {
   printf("\n");
 }
 
+/**
+ * Loads all effects from src/effects/ folder
+ * @return map<name of effect, effect pointer>
+ */
 std::unordered_map<std::string, std::unique_ptr<Effect>> loadEffects() {
   std::unordered_map<std::string, std::unique_ptr<Effect>> effects;
   for (const auto & file : fs::directory_iterator("src/effects/")) {
@@ -55,6 +67,10 @@ std::unordered_map<std::string, std::unique_ptr<Effect>> loadEffects() {
   return effects;
 }
 
+/**
+ * Loads all image types from src/filetypes/ folder
+ * @return set<extension string>
+ */
 std::unordered_set<std::unique_ptr<ImageType>> loadImageTypes() {
   std::unordered_set<std::unique_ptr<ImageType>> imgTypes;
   for (const auto & file : fs::directory_iterator("src/filetypes/")) {
@@ -81,11 +97,13 @@ int main(int argc, char * argv[]) {
   auto effects = loadEffects();
   auto imageTypes = loadImageTypes();
 
+  // Find all extensions
   std::unordered_set<std::string> allExtensions;
   for (auto &type : imageTypes)
     for (auto &extension : type->extensions)
       allExtensions.insert(extension);
 
+  // Process program options
   try {
     po::options_description desc("Allowed options");
     desc.add_options()
@@ -95,10 +113,12 @@ int main(int argc, char * argv[]) {
         ("output,o", po::value<std::string>(), "set output file name")
     ;
 
+    // Required options
     po::positional_options_description p;
     p.add("effect", 1);
     p.add("input", 1);
 
+    // Collect all options
     po::variables_map vm;
     po::store(po::command_line_parser(argc, argv).options(desc).positional(p).run(), vm);
     po::notify(vm);
@@ -145,11 +165,13 @@ int main(int argc, char * argv[]) {
 
   ImageType *img;
 
+  // Find our image type
   for (auto &type : imageTypes)
     for (auto &extension : type->extensions)
       if (ext == extension)
         img = type.get();
 
+  // Try to read image
   try {
     img->read(inputFilename.c_str());
   } catch (std::runtime_error &error) {
@@ -157,9 +179,11 @@ int main(int argc, char * argv[]) {
     return -4;
   }
 
+  // Apply effect
   std::unique_ptr<Effect> effect;
   effects[effectName]->apply(img->width, img->height, img->data);
 
+  // Try to write image
   try {
     img->write(outputFilename.c_str());
   } catch (std::runtime_error &error) {
