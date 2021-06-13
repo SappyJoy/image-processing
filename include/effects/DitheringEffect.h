@@ -1,6 +1,5 @@
 #pragma once
 
-#include <vector>
 #include "Effect.h"
 class DitheringEffect : public Effect {
 public:

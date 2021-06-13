@@ -1,6 +1,5 @@
 #pragma once
 
-#include <vector>
 #include "Effect.h"
 class InvertEffect : public Effect {
 public:

@@ -89,7 +89,7 @@ int main(int argc, char * argv[]) {
   try {
     po::options_description desc("Allowed options");
     desc.add_options()
-        ("help", "produce printEffects message")
+        ("help", "produce help message")
         ("effect,e", po::value<std::string>(), "effect name")
         ("input,i", po::value<std::string>(), "set input file name")
         ("output,o", po::value<std::string>(), "set output file name")
@@ -123,7 +123,7 @@ int main(int argc, char * argv[]) {
     if (vm.count("output")) {
       outputFilename = vm["output"].as<std::string>();
     } else {
-      outputFilename = inputFilename.substr(0, inputFilename.size()-std::string(ext).size()) + "_copy" + ext;
+      outputFilename = inputFilename.substr(0, inputFilename.size()-std::string(ext).size()) + "_" + effectName + ext;
     }
 
   } catch (std::exception &e) {

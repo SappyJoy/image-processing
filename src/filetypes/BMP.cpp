@@ -32,7 +32,6 @@ uint32_t BMP::makeStrideAligned(int alignStride) {
     newStride++;
   }
   return newStride;
-//  return rowStride + alignStride - (rowStride % alignStride);
 }
 
 void BMP::read(const char *fname) {

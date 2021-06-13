@@ -1,5 +1,7 @@
 #pragma once
 
+#include <memory>
+
 #include "../effects/Effect.h"
 #include "../../include/filetypes/ImageType.h"
 

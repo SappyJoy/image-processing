@@ -25,12 +25,6 @@ if(CCACHE_FOUND)
     set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
 endif(CCACHE_FOUND)
 
-#file(GLOB image_processing_SRC
-#        "src/*.cpp"
-#        "src/*/*.cpp"
-#        )
-#
-#add_executable(image_processing ${image_processing_SRC})
 
 add_executable(effect)
 add_subdirectory(src)

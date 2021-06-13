@@ -1,5 +1,8 @@
 #pragma once
 
+#include <vector>
+#include <string>
+
 class ImageType {
 public:
   std::vector<std::vector<Pixel>> data;
