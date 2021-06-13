@@ -7,9 +7,9 @@
 void DitheringEffect::apply(int width, int height, std::vector<std::vector<Pixel>> &data) {
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
-      int oldR = data[y][x].R;
-      int oldG = data[y][x].G;
-      int oldB = data[y][x].B;
+      int16_t oldR = data[y][x].R;
+      int16_t oldG = data[y][x].G;
+      int16_t oldB = data[y][x].B;
 
       //factor is the number of colors available in your color palette
       //using which u color your image.
@@ -18,11 +18,11 @@ void DitheringEffect::apply(int width, int height, std::vector<std::vector<Pixel
       int factor = 1;
 
       //quantise the values to a shorter range of values
-      int newR = (int)round(factor * (double)oldR / 255) * (255 / factor);
-      int newG = (int)round(factor * (double)oldG / 255) * (255 / factor);
-      int newB = (int)round(factor * (double)oldB / 255) * (255 / factor);
+      auto newR = int16_t((int)round(factor * (double)oldR / 255) * (255 / factor));
+      auto newG = int16_t((int)round(factor * (double)oldG / 255) * (255 / factor));
+      auto newB = int16_t((int)round(factor * (double)oldB / 255) * (255 / factor));
 
-      data[y][x] = Pixel(newR, newG, newB);
+      data[y][x] = Pixel((int16_t)newR, (int16_t)newG, (int16_t)newB);
 
       //Dithering algo for pixel correction begins from here
 

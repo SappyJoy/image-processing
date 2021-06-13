@@ -3,7 +3,7 @@
 #include <iostream>
 
 template<class T, class Fn>
-std::unique_ptr<T> PluginLoader::loadPlugin(const char *effect_name, const char * fnName) {
+std::unique_ptr<T> PluginLoader::loadPlugin(const char *effect_name, const char *fnName) {
   void * effect_lib = dlopen(effect_name, RTLD_NOW | RTLD_LOCAL);
   if (!effect_lib) {
     std::cerr << "Failed to load plugin \"" << effect_name << "\": " << dlerror() << std::endl;

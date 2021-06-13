@@ -7,7 +7,7 @@
 #include "../../include/filetypes/BMP.h"
 
 BMP::BMP() {
-  extensions = { ".bmp" };
+  extensions = { ".bmp", ".dib" };
 }
 
 BMP::BMP(const char *fname) : BMP() {
