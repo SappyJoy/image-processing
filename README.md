@@ -30,22 +30,22 @@ Allowed options:
 
 ## Examples
 ### Dithering
-![](res/Regina-Spektor.bmp)
-![](res/Regina-Spektor_dithering.bmp)
+![](Regina-Spektor.bmp)
+![](Regina-Spektor_dithering.bmp)
 
-![](res/regina.bmp)
-![](res/regina_dithering.bmp)
+![](regina.bmp)
+![](regina_dithering.bmp)
 
-![](res/cube.bmp)
-![](res/cube_dithering.bmp)
+![](cube.bmp)
+![](cube_dithering.bmp)
 
 ### Grayscale
-![](res/birmancat.bmp)
-![](res/birmancat_grayscale.bmp)
+![](birmancat.bmp)
+![](birmancat_grayscale.bmp)
 
 ### Invertion
-![](res/in-the-aeroplane-over-the-sea.bmp)
-![](res/in-the-aeroplane-over-the-sea_invert.bmp)
+![](in-the-aeroplane-over-the-sea.bmp)
+![](in-the-aeroplane-over-the-sea_invert.bmp)
 
 ## How to implement new effect
 You need to inherit from the base class `Effect` and implement its
