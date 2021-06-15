@@ -148,6 +148,10 @@ int main(int32_t argc, char * argv[]) {
       return 0;
     }
 
+    // Check if there are any extra options and throw error if there are
+    po::store(po::command_line_parser(argc, argv).options(desc).options(effectDesc).positional(p).run(), vm);
+    po::notify(vm);
+
     if (vm.count("output")) {
       outputFilename = vm["output"].as<std::string>();
     } else {
