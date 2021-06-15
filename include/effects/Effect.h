@@ -14,7 +14,7 @@ public:
 
   virtual ~Effect() = default;
 
-  virtual std::string name() const = 0;
+  virtual std::string name() const noexcept = 0;
 };
 
 using create_effect_fn = std::add_pointer<Effect *()>::type;

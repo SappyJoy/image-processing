@@ -8,7 +8,7 @@ public:
 
   void readParameters(boost::program_options::options_description &desc, int32_t argc, char **argv) override;
 
-  std::string name() const override {
+  std::string name() const noexcept override {
     return "dithering";
   }
 
