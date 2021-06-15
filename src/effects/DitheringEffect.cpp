@@ -4,18 +4,13 @@
 
 #include <cmath>
 #include "../../include/effects/DitheringEffect.h"
+
 void DitheringEffect::apply(int width, int height, std::vector<std::vector<Pixel>> &data) {
   for (int y = 0; y < height; y++) {
     for (int x = 0; x < width; x++) {
       int16_t oldR = data[y][x].R;
       int16_t oldG = data[y][x].G;
       int16_t oldB = data[y][x].B;
-
-      //factor is the number of colors available in your color palette
-      //using which u color your image.
-      //eg if factor = 1, then there are 2 possible values 0 and 1.
-      //Hence the number of colors in your color palette of each type ( ie R,G and B) are only 2.
-      int factor = 1;
 
       //quantise the values to a shorter range of values
       auto newR = int16_t((int)round(factor * (double)oldR / 255) * (255 / factor));
@@ -39,6 +34,19 @@ void DitheringEffect::apply(int width, int height, std::vector<std::vector<Pixel
         data[y + 1][x + 1] += quant_error * ((double)1 / 16);
 
     }
+  }
+}
+void DitheringEffect::readParameters(boost::program_options::options_description &desc, int argc, char **argv) {
+  namespace po = boost::program_options;
+  desc.add_options()
+      ("factor", po::value<int>()->default_value(1), "number of possible values of each color")
+  ;
+  po::variables_map vm;
+  po::store(po::command_line_parser(argc, argv).options(desc).allow_unregistered().run(), vm);
+  po::notify(vm);
+
+  if (vm.count("factor")) {
+    factor = vm["factor"].as<int>();
   }
 }
 

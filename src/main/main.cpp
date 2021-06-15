@@ -120,20 +120,25 @@ int main(int argc, char * argv[]) {
 
     // Collect all options
     po::variables_map vm;
-    po::store(po::command_line_parser(argc, argv).options(desc).positional(p).run(), vm);
+    po::store(po::command_line_parser(argc, argv).options(desc).positional(p).allow_unregistered().run(), vm);
     po::notify(vm);
+
+    po::options_description effectDesc("Options for effect");
+    if (vm.count("effect")) {
+      effectName = vm["effect"].as<std::string>();
+      effects[effectName]->readParameters(effectDesc, argc, argv);
+    }
 
     if (vm.count("input")) {
       inputFilename = vm["input"].as<std::string>();
       ext = fs::path(inputFilename).extension().c_str();
     }
-    if (vm.count("effect")) {
-      effectName = vm["effect"].as<std::string>();
-    }
 
     if (!vm.count("effect") || !vm.count("input") || vm.count("help")) {
       std::cout << "Usage: effect effect_name input_file_name [options]\n";
       std::cout << desc << "\n";
+      if (vm.count("effect"))
+        std::cout << effectDesc << "\n";
       printEffects(effects);
       std::cout << "\n";
       printExtensions(allExtensions);
@@ -181,7 +186,13 @@ int main(int argc, char * argv[]) {
 
   // Apply effect
   std::unique_ptr<Effect> effect;
+  auto start = std::chrono::system_clock::now();
   effects[effectName]->apply(img->width, img->height, img->data);
+  auto end = std::chrono::system_clock::now();
+
+  // stats
+  float elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end-start).count();
+  std::cout << "Time: " << elapsed << " ms" << std::endl;
 
   // Try to write image
   try {
