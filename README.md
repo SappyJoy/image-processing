@@ -5,10 +5,11 @@ _Works only on **Linux**_
 ## Now implemented
 ### Effects
 * Dithering
-* Glitch
-* Grayscale
-* Invert
 * Gaussian blur
+* Sepia
+* Grayscale
+* Glitch
+* Invert
 
 ### Image Types
 * BMP (24-bit)
@@ -65,6 +66,10 @@ Original image                     |![](res/cballs.png)                  |
 **Sigma = 3**   |![](res/cballs_blur_3.png)|
 **Sigma = 10**   |!![](res/cballs_blur_10.png)|
 
+### Sepia
+Original image                     | Proceeded                            | 
+-----------------------------------|----------------------------------------|
+![](res/Regina-Spektor.png)| ![](res/Regina-Spektor_sepia.png) |
 
 ### Grayscale
 Original image                     | Proceeded                            | 

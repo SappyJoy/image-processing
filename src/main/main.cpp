@@ -126,7 +126,10 @@ int main(int argc, char * argv[]) {
     po::options_description effectDesc("Options for effect");
     if (vm.count("effect")) {
       effectName = vm["effect"].as<std::string>();
-      effects[effectName]->readParameters(effectDesc, argc, argv);
+      if (effects.find(effectName) != effects.end())
+        effects[effectName]->readParameters(effectDesc, argc, argv);
+      else
+        throw std::runtime_error("There is no such effect");
     }
 
     if (vm.count("input")) {
@@ -137,7 +140,7 @@ int main(int argc, char * argv[]) {
     if (!vm.count("effect") || !vm.count("input") || vm.count("help")) {
       std::cout << "Usage: effect effect_name input_file_name [options]\n";
       std::cout << desc << "\n";
-      if (vm.count("effect"))
+      if (vm.count("effect") && !effectDesc.options().empty())
         std::cout << effectDesc << "\n";
       printEffects(effects);
       std::cout << "\n";
