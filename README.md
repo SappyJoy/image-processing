@@ -64,7 +64,7 @@ Original image                     |![](res/cballs.png)                  |
 -----------------------------------|---------------------------|
 **Sigma = 1.25** | ![](res/cballs_blur.png)|
 **Sigma = 3**   |![](res/cballs_blur_3.png)|
-**Sigma = 10**   |!![](res/cballs_blur_10.png)|
+**Sigma = 10**   |![](res/cballs_blur_10.png)|
 
 ### Sepia
 Original image                     | Proceeded                            | 
