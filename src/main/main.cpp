@@ -87,7 +87,7 @@ std::unordered_set<std::unique_ptr<ImageType>> loadImageTypes() {
   return imgTypes;
 }
 
-int main(int argc, char * argv[]) {
+int main(int32_t argc, char * argv[]) {
 
   const char *ext;
   std::string inputFilename;
@@ -194,7 +194,7 @@ int main(int argc, char * argv[]) {
   auto end = std::chrono::system_clock::now();
 
   // stats
-  float elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end-start).count();
+  auto elapsed = std::chrono::duration_cast<std::chrono::milliseconds>(end-start).count();
   std::cout << "Time: " << elapsed << " ms" << std::endl;
 
   // Try to write image

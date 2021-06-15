@@ -11,7 +11,7 @@ struct Pixel {
   int16_t B;
 
   Pixel() = default;
-  Pixel(int16_t R, int16_t G, int16_t B) : R(R), G(G), B(B) {}
+  Pixel(int16_t R, int16_t G, int16_t B) : R(R), G(G), B(B) { }
 
   Pixel &operator+=(Pixel p) {
     this->add(p);
@@ -35,13 +35,13 @@ struct Pixel {
     return tmp;
   }
 
-  Pixel operator+(int p) const {
+  Pixel operator+(int16_t p) const {
     Pixel tmp(*this);
     tmp.add(Pixel(p, p, p));
     return tmp;
   }
 
-  Pixel operator-(int p) const {
+  Pixel operator-(int16_t p) const {
     Pixel tmp(*this);
     tmp.sub(Pixel(p, p, p));
     return tmp;
@@ -56,7 +56,7 @@ struct Pixel {
     return tmp;
   }
 
-  int16_t operator[](int index) const {
+  int16_t operator[](size_t index) const {
     if (index == 0)
       return R;
     if (index == 1)
@@ -66,7 +66,7 @@ struct Pixel {
     throw std::runtime_error("You can't use index " + std::to_string(index) + ".");
   }
 
-  int16_t &operator[](int index) {
+  int16_t &operator[](size_t index) {
     if (index == 0)
       return R;
     if (index == 1)

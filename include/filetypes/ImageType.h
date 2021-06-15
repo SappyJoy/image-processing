@@ -13,8 +13,8 @@ public:
    */
   std::vector<std::vector<Pixel>> data;
   std::vector<std::string> extensions;
-  int width;
-  int height;
+  int32_t width;
+  int32_t height;
 
   /**
    * Reads the content of image

@@ -14,7 +14,7 @@ BMP::BMP(const char *fname) : BMP() {
   read(fname);
 }
 
-void BMP::checkColorHeader(BMPColorHeader &bmpColorHeader) {
+void BMP::checkColorHeader(BMPColorHeader &bmpColorHeader) const {
   BMPColorHeader expectedColorHeader;
   if (expectedColorHeader.redMask != bmpColorHeader.redMask ||
       expectedColorHeader.greenMask != bmpColorHeader.greenMask ||
@@ -26,7 +26,7 @@ void BMP::checkColorHeader(BMPColorHeader &bmpColorHeader) {
     throw std::runtime_error("Unexpected color space type! The program expects sRGB values");
 }
 
-uint32_t BMP::makeStrideAligned(int alignStride) {
+uint32_t BMP::makeStrideAligned(int alignStride) const {
   uint32_t newStride = rowStride;
   while (newStride % alignStride != 0) {
     newStride++;
@@ -133,7 +133,7 @@ void BMP::write(const char *fname) {
     throw std::runtime_error("Unable to open the output image file.");
 }
 
-void BMP::writeHeaders(std::ofstream &of) {
+void BMP::writeHeaders(std::ofstream &of) const {
   of.write((const char*)&fileHeader, sizeof(fileHeader));
   of.write((const char*)&infoHeader, sizeof(infoHeader));
   if(infoHeader.bitCount == 32) {

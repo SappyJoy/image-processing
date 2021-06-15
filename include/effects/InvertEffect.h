@@ -4,9 +4,9 @@
 
 class InvertEffect : public Effect {
 public:
-  void apply(int width, int height, std::vector<std::vector<Pixel>> &data) override;
+  void apply(int32_t width, int32_t height, std::vector<std::vector<Pixel>> &data) override;
 
-  std::string name() override {
+  std::string name() const override {
     return "invert";
   }
 };

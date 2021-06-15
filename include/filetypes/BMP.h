@@ -56,15 +56,15 @@ public:
 private:
   uint32_t rowStride{ 0 };
 
-  uint32_t makeStrideAligned(int alignStride);
+  uint32_t makeStrideAligned(int alignStride) const;
 
   void updateRawData();
 
-  void writeHeaders(std::ofstream &of);
+  void writeHeaders(std::ofstream &of) const;
   void writeHeadersAndData(std::ofstream &of);
 
   // Check if the pixel dataBytes is stored as BGRA and if the color space type is sRGB
-  void checkColorHeader(BMPColorHeader &bmpColorHeader);
+  void checkColorHeader(BMPColorHeader &bmpColorHeader) const;
 };
 
 extern "C" {

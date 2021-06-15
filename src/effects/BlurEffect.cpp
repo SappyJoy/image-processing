@@ -40,18 +40,18 @@ void BlurEffect::apply(int width, int height, std::vector<std::vector<Pixel>> &d
  * @return
  */
 
-std::vector<int> boxesForGauss(double sigma, int n) {
+std::vector<int32_t> boxesForGauss(double sigma, int32_t n) {
   double wIdeal = std::sqrt((12 * sigma * sigma / n) + 1);  // Ideal averaging filter width
-  int wl = std::floor(wIdeal);
+  int32_t wl = std::floor(wIdeal);
   if (wl % 2 == 0) wl--;
-  int wu = wl + 2;
+  int32_t wu = wl + 2;
 
   double mIdeal = (12*sigma*sigma - n*wl*wl - 4*n*wl - 3*n) / (-4*wl - 4);
-  int m = (int)std::round(mIdeal);
+  auto m = (int32_t)std::round(mIdeal);
 
-  std::vector<int> sizes;
+  std::vector<int32_t> sizes;
   sizes.reserve(n);
-  for (int i = 0; i < n; i++)
+  for (int32_t i = 0; i < n; i++)
     sizes.push_back(i < m ? wl : wu);
 
   return sizes;
@@ -86,13 +86,13 @@ void BlurEffect::apply(int width, int height, std::vector<std::vector<Pixel>> &d
 */
 
 // Algorithm 3
-void boxBlurHorizontal(int width, int height, std::vector<std::vector<Pixel>> &data, int r) {
-  for (int y = 0; y < height; y++) {
-    for (int x = 0; x < width; x++) {
-      for (int color = 0; color < 3; color++) {
-        int val = 0;
-        for (int ix = x - r; ix < x + r + 1; ix++) {
-          int X = std::min(width - 1, std::max(0, ix));
+void boxBlurHorizontal(int32_t width, int32_t height, std::vector<std::vector<Pixel>> &data, int32_t r) {
+  for (int32_t y = 0; y < height; y++) {
+    for (int32_t x = 0; x < width; x++) {
+      for (size_t color = 0; color < 3; color++) {
+        int32_t val = 0;
+        for (int32_t ix = x - r; ix < x + r + 1; ix++) {
+          int32_t X = std::min(width - 1, std::max(0, ix));
           val += data[y][X][color];
         }
         data[y][x][color] = val / (r+r+1);
@@ -101,13 +101,13 @@ void boxBlurHorizontal(int width, int height, std::vector<std::vector<Pixel>> &d
   }
 }
 
-void boxBlurTotal(int width, int height, std::vector<std::vector<Pixel>> &data, int r) {
-  for (int y = 0; y < height; y++) {
-    for (int x = 0; x < width; x++) {
-      for (int color = 0; color < 3; color++) {
-        int val = 0;
-        for (int iy = y - r; iy < y + r + 1; iy++) {
-          int Y = std::min(height - 1, std::max(0, iy));
+void boxBlurTotal(int32_t width, int32_t height, std::vector<std::vector<Pixel>> &data, int32_t r) {
+  for (int32_t y = 0; y < height; y++) {
+    for (int32_t x = 0; x < width; x++) {
+      for (size_t color = 0; color < 3; color++) {
+        int32_t val = 0;
+        for (int32_t iy = y - r; iy < y + r + 1; iy++) {
+          int32_t Y = std::min(height - 1, std::max(0, iy));
           val += data[Y][x][color];
         }
         data[y][x][color] = val / (r+r+1);
@@ -116,19 +116,19 @@ void boxBlurTotal(int width, int height, std::vector<std::vector<Pixel>> &data, 
   }
 }
 
-void boxBLur3(int width, int height, std::vector<std::vector<Pixel>> &data, int r) {
+void boxBLur3(int32_t width, int32_t height, std::vector<std::vector<Pixel>> &data, int32_t r) {
   boxBlurHorizontal(width, height, data, r);
   boxBlurTotal(width, height, data, r);
 }
 
-void BlurEffect::apply(int width, int height, std::vector<std::vector<Pixel>> &data) {
+void BlurEffect::apply(int32_t width, int32_t height, std::vector<std::vector<Pixel>> &data) {
  auto bxs = boxesForGauss(sigma, 3);
  boxBLur3(width, height, data, (bxs[0]-1)/2);
  boxBLur3(width, height, data, (bxs[1]-1)/2);
  boxBLur3(width, height, data, (bxs[2]-1)/2);
 }
 
-// Algorithm 4
+// Algorithm 4 (Not working properly)
 /*
 void boxBlurHorizontal(int width, int height, std::vector<std::vector<Pixel>> &data, int r) {
   double iarr = 1 / (double)(r+r+1);
@@ -215,7 +215,7 @@ void BlurEffect::apply(int width, int height, std::vector<std::vector<Pixel>> &d
 }
 */
 
-void BlurEffect::readParameters(boost::program_options::options_description &desc, int argc, char **argv) {
+void BlurEffect::readParameters(boost::program_options::options_description &desc, int32_t argc, char **argv) {
   namespace po = boost::program_options;
   desc.add_options()
       ("sigma", po::value<double>()->default_value(1.25), "Blur degree (preferably 0.7 to 10)")
@@ -226,6 +226,8 @@ void BlurEffect::readParameters(boost::program_options::options_description &des
 
   if (vm.count("sigma")) {
     sigma = vm["sigma"].as<double>();
+    if (sigma < 0)
+      throw std::runtime_error("Sigma should be positive number");
   }
 }
 
