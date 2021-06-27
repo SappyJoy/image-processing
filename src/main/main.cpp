@@ -88,7 +88,6 @@ std::unordered_set<std::unique_ptr<ImageType>> loadImageTypes() {
 }
 
 int main(int32_t argc, char * argv[]) {
-
   const char *ext;
   std::string inputFilename;
   std::string outputFilename;
@@ -149,7 +148,8 @@ int main(int32_t argc, char * argv[]) {
     }
 
     // Check if there are any extra options and throw error if there are
-    po::store(po::command_line_parser(argc, argv).options(desc).options(effectDesc).positional(p).run(), vm);
+    desc.add(effectDesc);
+    po::store(po::command_line_parser(argc, argv).options(desc).positional(p).run(), vm);
     po::notify(vm);
 
     if (vm.count("output")) {
